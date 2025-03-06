@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدارة طلبيات الشاورما</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #444;
+        }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+            width: 45%;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .mokhalal { background-color: #ff9800; color: white; }
+        .super { background-color: #ff5722; color: white; }
+        .cheese { background-color: #4caf50; color: white; }
+        .cut { background-color: #2196f3; color: white; }
+        .undo { background-color: #1e90ff; color: white; }
+        .reset { background-color: #57606f; color: white; }
+
+        .results {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>إدارة طلبيات الشاورما</h1>
+        <div class="buttons">
+            <button class="mokhalal" onclick="playSound(); addOrder('مخلل عادي')">🥒 مخلل عادي</button>
+            <button class="super" onclick="playSound(); addOrder('مخلل سوبر')">🔥 مخلل سوبر</button>
+            <button class="cheese" onclick="playSound(); addOrder('جبنة')">🧀 جبنة</button>
+            <button class="cut" onclick="playSound(); addOrder('قص 250')">🔪 قص 250</button>
+        </div>
+        
+        <div class="buttons">
+            <button class="undo" onclick="playSound(); undoLastOrder()">↩️ رجوع خطوة</button>
+            <button class="reset" onclick="playSound(); resetOrders()">🔄 إعادة التعيين</button>
+        </div>
+
+        <div class="results">
+            <p>🥒 عدد مخلل عادي: <span id="مخلل عادي">0</span></p>
+            <p>🔥 عدد مخلل سوبر: <span id="مخلل سوبر">0</span></p>
+            <p>🧀 عدد جبنة: <span id="جبنة">0</span></p>
+            <p>🔪 عدد قص 250: <span id="قص 250">0</span></p>
+        </div>
+    </div>
+
+    <div class="footer">المصمم: عبدالله السوري</div>
+
+    <audio id="button-sound" src="https://www.myinstants.com/media/sounds/click.mp3"></audio>
+    
+    <script>
+        let orders = { "مخلل عادي": 0, "مخلل سوبر": 0, "جبنة": 0, "قص 250": 0 };
+        let orderHistory = [];
+
+        function playSound() {
+            document.getElementById("button-sound").play();
+        }
+
+        function addOrder(type) {
+            orderHistory.push({ ...orders });
+            orders[type]++;
+            updateDisplay();
+        }
+
+        function undoLastOrder() {
+            if (orderHistory.length > 0) {
+                orders = orderHistory.pop();
+                updateDisplay();
+            }
+        }
+
+        function resetOrders() {
+            orderHistory.push({ ...orders });
+            orders = { "مخلل عادي": 0, "مخلل سوبر": 0, "جبنة": 0, "قص 250": 0 };
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            for (let item in orders) {
+                document.getElementById(item).textContent = orders[item];
+            }
+        }
+    </script>
+
+</body>
+</html>
